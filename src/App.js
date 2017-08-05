@@ -18,10 +18,22 @@ class BooksApp extends React.Component {
     })
   }
 
+  /**
+   * Update the query in state
+   *
+   * @param {string} query
+   */
   updateQuery = (query) => {
     this.setState({ query })
   };
 
+  /**
+   * Set the searchResults in state with the response from the API.
+   * It will set the searchResults to an empty array if there is an error in the response,
+   * It will set the shelf to 'none' by default unless the book with the same id is already in the shelf
+   *
+   * @param {object} response
+   */
   setSearchResults = (response) => {
     if(!response.error) {
       const searchResults = [];
@@ -40,12 +52,26 @@ class BooksApp extends React.Component {
     }
   };
 
+  /**
+   * Call the BooksAPI with the search query and call setSearchResults function to set the result
+   * after get response from the API
+   *
+   * @param {string} query
+   */
   searchBooks = (query) =>{
     BooksAPI.search(query, 20).then((response) => {
       this.setSearchResults(response);
     });
   };
 
+  /**
+   * Update the books list in the state based on the change and book, it will remove the book from the list
+   * if the shelf is set to 'none', add the book to the list if there is no book with the same id in the list,
+   * change the shelf if the book with the same id is already in the list
+   *
+   * @param {object} change - The change object with 'id' and 'shelf' key
+   * @param {object} book - The book object before the change
+   */
   updateBooksList = (change, book) => {
     let { books } = this.state;
     if (change.shelf === 'none') {
@@ -62,6 +88,12 @@ class BooksApp extends React.Component {
     this.setState({ books });
   };
 
+  /**
+   * Update the search result in state based on the change, the shelf value of the book with the id
+   * in the list will be updated
+   *
+   * @param {object} change - The change object with 'id' and 'shelf' key
+   */
   updateSearchResults = (change) => {
     let { searchResults } = this.state;
     const bookAlreadyInList = searchResults.find((b) => b.id === change.id);
@@ -71,10 +103,22 @@ class BooksApp extends React.Component {
     this.setState({ searchResults });
   };
 
+  /**
+   * Handle the event when search query changed,
+   * it will get the query from the event and call updateQuery function
+   *
+   * @param event
+   */
   handleOnSearchChangeEvent = (event) => {
     this.updateQuery(event.target.value);
   };
 
+  /**
+   * Handle the key press event on the search page,
+   * it will call the searchBooks to search with the query when the user hit 'Enter' key
+   *
+   * @param event
+   */
   handleOnSearchKeyPressEvent = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -82,6 +126,12 @@ class BooksApp extends React.Component {
     }
   };
 
+  /**
+   * Call the API to update the book and update the books list and searchResults when success
+   *
+   * @param {object} change - The change object with 'id' and 'shelf' key
+   * @param {object} book - The book object before the change
+   */
   handleOnBookChange = (change, book) => {
     BooksAPI.update({ id: change.id}, change.shelf).then(() => {
       this.updateBooksList(change, book);
