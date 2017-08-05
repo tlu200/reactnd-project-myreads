@@ -19,7 +19,7 @@ class ListBooks extends  Component {
         case 'currentlyReading':
           currentlyReading.push(book);
           break;
-        case 'watnToRead':
+        case 'wantToRead':
           wantToRead.push(book);
           break;
         case 'read':
