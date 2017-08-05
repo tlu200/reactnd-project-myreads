@@ -22,7 +22,7 @@ class BooksApp extends React.Component {
     this.setState({ query })
   };
 
-  updateSearchResults = (response) => {
+  setSearchResults = (response) => {
     if(!response.error) {
       const searchResults = [];
       for(const book of response) {
@@ -42,7 +42,7 @@ class BooksApp extends React.Component {
 
   searchBooks = (query) =>{
     BooksAPI.search(query, 20).then((response) => {
-      this.updateSearchResults(response);
+      this.setSearchResults(response);
     });
   };
 
