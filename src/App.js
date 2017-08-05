@@ -22,7 +22,7 @@ class BooksApp extends React.Component {
     this.setState({ query })
   };
 
-  updateSearchResults(response) {
+  updateSearchResults = (response) => {
     if(!response.error) {
       const searchResults = [];
       for(const book of response) {
@@ -38,17 +38,28 @@ class BooksApp extends React.Component {
     } else {
       this.setState({ searchResults: [] });
     }
-  }
+  };
 
-  searchBooks(query) {
+  searchBooks = (query) =>{
     BooksAPI.search(query, 20).then((response) => {
       this.updateSearchResults(response);
     });
-  }
+  };
 
-  handleOnBookChange(change) {
+  handleOnSearchChangeEvent = (event) => {
+    this.updateQuery(event.target.value);
+  };
+
+  handleOnSearchKeyPressEvent = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.searchBooks(this.state.query);
+    }
+  };
+
+  handleOnBookChange = (change) => {
     console.log(change);
-  }
+  };
 
   render() {
     const { query, books, searchResults } = this.state;
@@ -62,12 +73,8 @@ class BooksApp extends React.Component {
             <SearchBooks
               query={query}
               books={searchResults}
-              onChange={(event) => { this.updateQuery(event.target.value) }}
-              onKeyPress={(event) => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                this.searchBooks(this.state.query);
-              }}}
+              onChange={this.handleOnSearchChangeEvent}
+              onKeyPress={this.handleOnSearchKeyPressEvent}
               onBookChange={this.handleOnBookChange}
             />
           )}/>
