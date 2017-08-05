@@ -46,6 +46,31 @@ class BooksApp extends React.Component {
     });
   };
 
+  updateBooksList = (change, book) => {
+    let { books } = this.state;
+    if (change.shelf === 'none') {
+      books = books.filter((b) => b.id !== change.id);
+    } else {
+      const bookAlreadyInList = books.find((b) => b.id === change.id);
+      if (bookAlreadyInList) {
+        bookAlreadyInList.shelf = change.shelf;
+      } else {
+        book.shelf = change.shelf;
+        books.push(book)
+      }
+    }
+    this.setState({ books });
+  };
+
+  updateSearchResults = (change) => {
+    let { searchResults } = this.state;
+    const bookAlreadyInList = searchResults.find((b) => b.id === change.id);
+    if (bookAlreadyInList) {
+      bookAlreadyInList.shelf = change.shelf;
+    }
+    this.setState({ searchResults });
+  };
+
   handleOnSearchChangeEvent = (event) => {
     this.updateQuery(event.target.value);
   };
@@ -57,8 +82,11 @@ class BooksApp extends React.Component {
     }
   };
 
-  handleOnBookChange = (change) => {
-    console.log(change);
+  handleOnBookChange = (change, book) => {
+    BooksAPI.update({ id: change.id}, change.shelf).then(() => {
+      this.updateBooksList(change, book);
+      this.updateSearchResults(change);
+    });
   };
 
   render() {

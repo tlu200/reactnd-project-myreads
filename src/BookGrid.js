@@ -27,7 +27,7 @@ class BookGrid extends Component {
             shelf={shelf}
             onChange={(change) => {
               change.id = id;
-              onBookChange(change)
+              onBookChange(change, book)
             }}
           />
         })}
