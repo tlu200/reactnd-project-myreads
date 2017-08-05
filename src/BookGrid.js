@@ -5,20 +5,31 @@ import Book from './Book'
 
 class BookGrid extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    onBookChange: PropTypes.func.isRequired
   };
 
   render() {
-    const { books } = this.props;
+    const { books, onBookChange } = this.props;
 
     return (
       <ol className="books-grid">
         {books.sort(sortBy('title')).map((book) => {
-          const { id = 0, imageLinks = {}, title = 'Unknown', authors = []} = book;
+          const { id = 0, imageLinks = {}, title = 'Unknown', authors = [], shelf = 'none'} = book;
           const { thumbnail='https://www.google.com/images/errors/robot.png' } = imageLinks;
           const [ bookAuthors='Unknown' ] = authors;
 
-          return <Book key={id} bookCover={thumbnail} bookTitle={title} bookAuthors={bookAuthors}/>
+          return <Book
+            key={id}
+            bookCover={thumbnail}
+            bookTitle={title}
+            bookAuthors={bookAuthors}
+            shelf={shelf}
+            onChange={(change) => {
+              change.id = id;
+              onBookChange(change)
+            }}
+          />
         })}
       </ol>
     )

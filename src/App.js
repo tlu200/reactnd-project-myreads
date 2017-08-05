@@ -40,13 +40,17 @@ class BooksApp extends React.Component {
     });
   }
 
+  handleOnBookChange(change) {
+    console.log(change);
+  }
+
   render() {
     const { query, books, searchResults } = this.state;
     return (
       <BrowserRouter>
         <div className="app">
           <Route exact path="/" render={() => (
-            <ListBooks books={books}/>
+            <ListBooks books={books} onBookChange={this.handleOnBookChange}/>
           )}/>
           <Route path="/search" render={() => (
             <SearchBooks
@@ -57,8 +61,9 @@ class BooksApp extends React.Component {
               if (event.key === 'Enter') {
                 event.preventDefault();
                 this.searchBooks(this.state.query);
-              }
-            }}/>
+              }}}
+              onBookChange={this.handleOnBookChange}
+            />
           )}/>
         </div>
       </BrowserRouter>

@@ -5,14 +5,16 @@ import Bookshelf from './Bookshelf';
 
 class ListBooks extends  Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    onBookChange: PropTypes.func.isRequired
   };
 
   render() {
+    const { books, onBookChange } = this.props;
     const currentlyReading = [];
     const wantToRead = [];
     const read = [];
-    for(const book of this.props.books) {
+    for(const book of books) {
       switch(book.shelf) {
         case 'currentlyReading':
           currentlyReading.push(book);
@@ -34,9 +36,9 @@ class ListBooks extends  Component {
         </div>
         <div className="list-books-content">
           <div>
-            {currentlyReading.length > 0 && (<Bookshelf bookshelfTitle="Currently Reading" books={currentlyReading}/>)}
-            {wantToRead.length > 0 && (<Bookshelf bookshelfTitle="Want to Read" books={wantToRead}/>)}
-            {read.length > 0 && (<Bookshelf bookshelfTitle="Read" books={read}/>)}
+            {currentlyReading.length > 0 && (<Bookshelf bookshelfTitle="Currently Reading" books={currentlyReading} onBookChange={onBookChange}/>)}
+            {wantToRead.length > 0 && (<Bookshelf bookshelfTitle="Want to Read" books={wantToRead} onBookChange={onBookChange}/>)}
+            {read.length > 0 && (<Bookshelf bookshelfTitle="Read" books={read} onBookChange={onBookChange}/>)}
           </div>
         </div>
         <div className="open-search">

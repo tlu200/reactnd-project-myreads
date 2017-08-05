@@ -8,11 +8,12 @@ class SearchBooks extends Component {
     books: PropTypes.array.isRequired,
     query: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    onKeyPress: PropTypes.func.isRequired
+    onKeyPress: PropTypes.func.isRequired,
+    onBookChange: PropTypes.func.isRequired
   };
 
   render() {
-    const { query, books, onChange, onKeyPress } = this.props;
+    const { query, books, onChange, onKeyPress, onBookChange } = this.props;
 
     return (
       <div className="search-books">
@@ -29,7 +30,7 @@ class SearchBooks extends Component {
         </div>
         {books.length > 0 && (
           <div className="search-books-results">
-            <BookGrid books={books} />
+            <BookGrid books={books} onBookChange={onBookChange}/>
           </div>
         )}
       </div>
