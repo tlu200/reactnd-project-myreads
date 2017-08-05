@@ -14,13 +14,13 @@ class BookGrid extends Component {
 
     return (
       <ol className="books-grid">
-        {books.sort(sortBy('title')).map((book) => {
+        {books.sort(sortBy('title')).map((book, index) => {
           const { id = 0, imageLinks = {}, title = 'Unknown', authors = [], shelf = 'none'} = book;
           const { thumbnail='https://www.google.com/images/errors/robot.png' } = imageLinks;
           const [ bookAuthors='Unknown' ] = authors;
 
           return <Book
-            key={id}
+            key={index}
             bookCover={thumbnail}
             bookTitle={title}
             bookAuthors={bookAuthors}
