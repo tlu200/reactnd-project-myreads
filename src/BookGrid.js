@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import sortBy from 'sort-by';
 import Book from './Book'
 
 class BookGrid extends Component {
@@ -12,7 +13,7 @@ class BookGrid extends Component {
 
     return (
       <ol className="books-grid">
-        {books.map((book) => {
+        {books.sort(sortBy('title')).map((book) => {
           const { id = 0, imageLinks = {}, title = 'Unknown', authors = []} = book;
           const { thumbnail='https://www.google.com/images/errors/robot.png' } = imageLinks;
           const [ bookAuthors='Unknown' ] = authors;
