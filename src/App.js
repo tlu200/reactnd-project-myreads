@@ -26,7 +26,13 @@ class BooksApp extends React.Component {
     if(!response.error) {
       const searchResults = [];
       for(const book of response) {
-        searchResults.push(book);
+        const bookAlreadyInList = this.state.books.find((b) => b.id === book.id);
+        if(bookAlreadyInList) {
+          searchResults.push(bookAlreadyInList);
+        } else {
+          book.shelf = 'none';
+          searchResults.push(book);
+        }
       }
       this.setState({ searchResults });
     } else {
