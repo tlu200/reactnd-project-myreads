@@ -12,9 +12,13 @@ class BookGrid extends Component {
 
     return (
       <ol className="books-grid">
-        {books.map((book) => (
-          <Book key={book.id} bookCover={book.imageLinks.thumbnail} bookTitle={book.title} bookAuthors={book.authors[0]}/>
-        ))}
+        {books.map((book) => {
+          const { id = 0, imageLinks = {}, title = 'Unknown', authors = []} = book;
+          const { thumbnail='https://www.google.com/images/errors/robot.png' } = imageLinks;
+          const [ bookAuthors='Unknown' ] = authors;
+
+          return <Book key={id} bookCover={thumbnail} bookTitle={title} bookAuthors={bookAuthors}/>
+        })}
       </ol>
     )
   }
